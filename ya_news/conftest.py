@@ -7,6 +7,10 @@ from django.utils import timezone
 from news.models import Comment, News
 
 
+COMMENT_TEXT = 'Текст комментария'
+NEW_COMMENT_TEXT = 'Обновлённый комментарий'
+
+
 @pytest.fixture
 def author(django_user_model):
     return django_user_model.objects.create(username='Автор')
@@ -51,7 +55,7 @@ def comment(author, news):
     comment = Comment.objects.create(
         news=news,
         author=author,
-        text='Tекст комментария 1'
+        text=COMMENT_TEXT
     )
     return comment
 
@@ -72,3 +76,8 @@ def second_comment(news, author):
 @pytest.fixture
 def comment_id(comment):
     return comment.id,
+
+
+@pytest.fixture
+def form_data():
+    return {'text': NEW_COMMENT_TEXT}
