@@ -17,7 +17,9 @@ class TestRoutes(TestCase):
         cls.another_user = User.objects.create(username='Another_user')
         cls.auth_client = Client()
         cls.auth_client.force_login(cls.another_user)
-        cls.note = Note.objects.create(title='title', text='text', author=cls.user)
+        cls.note = Note.objects.create(
+            title='title', text='text', author=cls.user
+        )
         cls.urls_status = (
             ('notes:list', None),
             ('notes:success', None),
@@ -27,11 +29,12 @@ class TestRoutes(TestCase):
         )
 
     def test_page_availability_for_everyone(self):
-        for name in 'users:login', 'users:logout', 'users:signup', 'notes:home':
+        for name in ('users:login', 'users:logout',
+                     'users:signup', 'notes:home'):
             with self.subTest(name=name):
                 url = reverse(name)
                 response = self.client.get(url)
-                self.assertEquals(response.status_code, HTTPStatus.OK)
+                self.assertEqual(response.status_code, HTTPStatus.OK)
 
     def test_edit_and_delete_for_another_client(self):
         for name in 'notes:edit', 'notes:delete':
@@ -56,6 +59,3 @@ class TestRoutes(TestCase):
                 redirect_url = f'{login_url}?next={url}'
                 response = self.client.get(url)
                 self.assertRedirects(response, redirect_url)
-
-
-

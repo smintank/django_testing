@@ -10,7 +10,6 @@ User = get_user_model()
 
 class TestContent(TestCase):
 
-
     @classmethod
     def setUpTestData(cls):
         cls.user = User.objects.create(username='Main_user')
